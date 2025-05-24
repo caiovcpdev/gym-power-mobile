@@ -1,24 +1,18 @@
-import { StackNavigationProp } from '@react-navigation/stack';
-import { useNavigation } from 'expo-router';
+
+import { router } from 'expo-router';
 import React from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-type RootStackParamList = {
-  '(tabs)/HomeScreen': undefined;
-  '(tabs)/LoginScreen': undefined;
-  '(tabs)/UsersScreen': undefined;
-};
 
 
 const HomeScreen = () => {
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   // Dados fictícios para a lista de ranking
   const rankingData = [
     { id: '1', name: 'Daniel Vieira', time: 'Há 08:15', badge: '✅' },
     { id: '2', name: 'Fernanda Rocha', time: 'Há 08:15', badge: '✅' },
     { id: '3', name: 'Mariana Alves', time: 'Há 07:50', badge: '' },
-    { id: '4', name: 'Caio Ruvinho', time: 'Há 07:50', badge: '' },
+    { id: '4', name: 'Caio Vinicius', time: 'Há 07:50', badge: '' },
     { id: '5', name: 'Albert Einstein', time: 'Há 07:25', badge: '' },
   ];
 
@@ -33,7 +27,7 @@ const HomeScreen = () => {
   };
 
     const handleUsers = () => {
-    navigation.navigate('(tabs)/UsersScreen');
+    router.push('/(tabs)/UsersScreen');
     console.log('Navegação para Início');
   };
 

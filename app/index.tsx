@@ -1,4 +1,5 @@
-import LoginScreen from "./(tabs)/LoginScreen";
+import LoginScreen from "./LoginScreen";
+
 
 
 export default function Index() {

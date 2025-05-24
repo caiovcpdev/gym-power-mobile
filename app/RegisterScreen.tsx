@@ -1,47 +1,37 @@
-import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { Platform, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
-type RootStackParamList = {
-  '(tabs)/HomeScreen': undefined;
-  '(tabs)/LoginScreen': undefined;
-};
 
 const RegisterScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [gender, setGender] = useState(''); // Initial value can stay empty
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const [gender, setGender] = useState('');
+  const router = useRouter();
 
   const handleRegister = () => {
     console.log('Register attempt with:', email, password, confirmPassword, gender);
-    navigation.navigate('(tabs)/HomeScreen');
+    router.push('/(tabs)/HomeScreen'); // caminho relativo ao app/(tabs)/HomeScreen.tsx
   };
 
   const handleBack = () => {
     console.log('Navigating back to LoginScreen');
-    navigation.navigate('(tabs)/LoginScreen');
+    router.push('./LoginScreen');
   };
 
-  // Hide or style the status bar
   useEffect(() => {
-    StatusBar.setBarStyle('light-content'); // Set status bar text/icons to white for dark theme
+    StatusBar.setBarStyle('light-content');
     if (Platform.OS === 'android') {
-      StatusBar.setBackgroundColor('#1C2526'); // Match the background color of the screen
-      StatusBar.setTranslucent(false); // Ensure status bar is not translucent
+      StatusBar.setBackgroundColor('#1C2526');
+      StatusBar.setTranslucent(false);
     }
   }, []);
-
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        {/* Title */}
         <Text style={styles.title}>GYMPOWER</Text>
 
-        {/* Username/Email Input */}
         <TextInput
           style={styles.input}
           placeholder="usuário"
@@ -52,7 +42,6 @@ const RegisterScreen = () => {
           keyboardType="email-address"
         />
 
-        {/* Password Input */}
         <TextInput
           style={styles.input}
           placeholder="senha"
@@ -62,7 +51,6 @@ const RegisterScreen = () => {
           secureTextEntry
         />
 
-        {/* Confirm Password Input */}
         <TextInput
           style={styles.input}
           placeholder="confirmação senha"
@@ -72,8 +60,8 @@ const RegisterScreen = () => {
           secureTextEntry
         />
 
-        {/* Gender Picker */}
-        {/* <View style={styles.pickerContainer}>
+        {/* Gênero (comentado por enquanto)
+        <View style={styles.pickerContainer}>
           <Picker
             selectedValue={gender}
             style={styles.picker}
@@ -85,19 +73,17 @@ const RegisterScreen = () => {
             <Picker.Item label="Feminino" value="female" />
             <Picker.Item label="Outro" value="other" />
           </Picker>
-        </View> */}
+        </View>
+        */}
 
-        {/* Register Button */}
         <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
           <Text style={styles.buttonText}>ENTRAR</Text>
         </TouchableOpacity>
 
-        {/* Lorem Ipsum Text */}
         <Text style={styles.loremText}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
         </Text>
 
-        {/* Back Button */}
         <TouchableOpacity onPress={handleBack}>
           <Text style={styles.backText}>VOLTAR</Text>
         </TouchableOpacity>
@@ -109,7 +95,7 @@ const RegisterScreen = () => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#1C2526', // Match the background color
+    backgroundColor: '#1C2526',
   },
   container: {
     flex: 1,
@@ -142,7 +128,7 @@ const styles = StyleSheet.create({
   picker: {
     height: 50,
     width: '100%',
-    color: '#FFF', // Changed to white for better contrast
+    color: '#FFF',
   },
   registerButton: {
     width: '100%',
