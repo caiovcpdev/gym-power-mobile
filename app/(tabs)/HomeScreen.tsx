@@ -1,12 +1,8 @@
-
-import { router } from 'expo-router';
-import React from 'react';
+import { router, useNavigation } from 'expo-router';
+import React, { useLayoutEffect } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-
-
 const HomeScreen = () => {
-
   // Dados fictícios para a lista de ranking
   const rankingData = [
     { id: '1', name: 'Daniel Vieira', time: 'Há 08:15', badge: '✅' },
@@ -16,7 +12,20 @@ const HomeScreen = () => {
     { id: '5', name: 'Albert Einstein', time: 'Há 07:25', badge: '' },
   ];
 
-  const renderItem = ({ item }:any) => {
+  const navigation = useNavigation();
+
+  // Configurar o header com o botão de logout
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
+          <Text style={styles.logoutText}>Sair</Text>
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
+
+  const renderItem = ({ item }: any) => {
     return (
       <View style={styles.itemContainer}>
         <Text style={styles.nameText}>{item.name}</Text>
@@ -26,10 +35,18 @@ const HomeScreen = () => {
     );
   };
 
-    const handleUsers = () => {
+  const handleUsers = () => {
     router.push('/(tabs)/UsersScreen');
     console.log('Navegação para Início');
   };
+
+  const handleLogout = () => {
+    console.log('Usuário deslogado');
+    router.replace('/');
+  };
+
+  // Contar a quantidade de pessoas treinando
+  const trainingCount = rankingData.length;
 
   return (
     <View style={styles.container}>
@@ -40,7 +57,7 @@ const HomeScreen = () => {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Treinando</Text>
         <Text style={styles.subText}>Aguardando</Text>
-        <Text style={styles.peopleText}>38 Pessoas</Text>
+        <Text style={styles.peopleText}>{trainingCount} Pessoas</Text>
       </View>
 
       {/* Lista de Ranking */}
@@ -116,13 +133,6 @@ const styles = StyleSheet.create({
     color: '#FFC107',
     fontSize: 16,
   },
-  usersText: {
-    color: '#FFF',
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginTop: 20,
-  },
   userButton: {
     backgroundColor: '#2A3435',
     paddingVertical: 15,
@@ -134,7 +144,16 @@ const styles = StyleSheet.create({
     color: '#FFF',
     fontSize: 16,
     fontWeight: 'bold',
-  }
+  },
+  logoutButton: {
+    marginRight: 15,
+    padding: 10,
+  },
+  logoutText: {
+    color: '#FFC107',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });
 
 export default HomeScreen;

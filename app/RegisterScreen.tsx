@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { Platform, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, Platform, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const RegisterScreen = () => {
@@ -11,8 +11,46 @@ const RegisterScreen = () => {
   const router = useRouter();
 
   const handleRegister = () => {
-    console.log('Register attempt with:', email, password, confirmPassword, gender);
-    router.push('/(tabs)/HomeScreen'); // caminho relativo ao app/(tabs)/HomeScreen.tsx
+    // Trim inputs to remove leading/trailing whitespace
+    const trimmedEmail = email.trim();
+    const trimmedPassword = password.trim();
+    const trimmedConfirmPassword = confirmPassword.trim();
+
+    // Validation for empty fields
+    if (!trimmedEmail || !trimmedPassword || !trimmedConfirmPassword) {
+      Alert.alert(
+        'Erro',
+        'Por favor, preencha todos os campos: usuário, senha e confirmação de senha.',
+        [{ text: 'OK' }]
+      );
+      return;
+    }
+
+    // Validation for password match
+    if (trimmedPassword !== trimmedConfirmPassword) {
+      Alert.alert(
+        'Erro',
+        'As senhas não coincidem. Por favor, verifique a senha e a confirmação de senha.',
+        [{ text: 'OK' }]
+      );
+      return;
+    }
+
+    // Validation for gender (uncomment when Picker is enabled)
+    /*
+    if (!gender) {
+      Alert.alert(
+        'Erro',
+        'Por favor, selecione um gênero.',
+        [{ text: 'OK' }]
+      );
+      return;
+    }
+    */
+
+    // If all validations pass
+    console.log('Register attempt with:', trimmedEmail, trimmedPassword, trimmedConfirmPassword, gender);
+    router.push('/(tabs)/HomeScreen');
   };
 
   const handleBack = () => {
@@ -27,6 +65,7 @@ const RegisterScreen = () => {
       StatusBar.setTranslucent(false);
     }
   }, []);
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
@@ -99,7 +138,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#1C2526',
+    backgroundColor: 'c',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,

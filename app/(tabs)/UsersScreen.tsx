@@ -1,6 +1,6 @@
 import { StackNavigationProp } from '@react-navigation/stack';
 import { router, useNavigation } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 type RootStackParamList = {
@@ -52,12 +52,22 @@ const UserScreen = () => {
   ]);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
+  // Configurar o header com o botão de logout
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
+          <Text style={styles.logoutText}>Sair</Text>
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
+
   // Filter users based on search query
   const filteredData = userData.filter((item) =>
     item.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
- 
   const handleCheckIn = (userId: string) => {
     const currentTime = new Date().toLocaleTimeString('pt-BR', {
       hour: '2-digit',
@@ -74,7 +84,6 @@ const UserScreen = () => {
     console.log(`Check-in realizado para ${userId} às ${currentTime}`);
   };
 
-
   const handleCheckOut = (userId: string) => {
     const currentTime = new Date().toLocaleTimeString('pt-BR', {
       hour: '2-digit',
@@ -89,6 +98,12 @@ const UserScreen = () => {
       prev && prev.id === userId ? { ...prev, checkOut: currentTime } : prev
     );
     console.log(`Check-out realizado para ${userId} às ${currentTime}`);
+  };
+
+  const handleLogout = () => {
+    // Aqui você pode adicionar a lógica de logout, como limpar tokens ou estado de autenticação
+    console.log('Usuário deslogado');
+    router.replace('/'); // Navega para a tela de login
   };
 
   const renderItem = ({ item }: { item: User }) => (
@@ -131,7 +146,6 @@ const UserScreen = () => {
           >
             <Text style={styles.buttonText}>✅ Fazer Check-in</Text>
           </TouchableOpacity>
-
           <TouchableOpacity
             style={styles.checkOutButton}
             onPress={() => handleCheckOut(selectedUser.id)}
@@ -275,6 +289,15 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#000',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  logoutButton: {
+    marginRight: 15,
+    padding: 10,
+  },
+  logoutText: {
+    color: '#FFC107',
     fontSize: 16,
     fontWeight: 'bold',
   },

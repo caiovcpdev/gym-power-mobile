@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -8,8 +8,29 @@ const LoginScreen = () => {
   const router = useRouter();
 
   const handleLogin = () => {
-    console.log('Login attempt with:', email, password);
-    router.push('/(tabs)/HomeScreen'); // caminho relativo à pasta (tabs)
+    const trimmedEmail = email.trim();
+    const trimmedPassword = password.trim();
+
+    if(!trimmedEmail || !trimmedPassword){
+      Alert.alert(
+        'Erro',
+        'Por favor, preencha ambos os campos de usuário e senha.',
+        [{ text: 'OK' }]
+      )
+      return
+    }
+
+    // Validation for admin credentials
+    if (trimmedEmail === 'admin' && trimmedPassword === '123456') {
+      console.log('Login bem-sucedido com:', trimmedEmail, trimmedPassword);
+      router.push('/(tabs)/HomeScreen');
+    } else {
+      Alert.alert(
+        'Erro',
+        'Credenciais inválidas.',
+        [{ text: 'OK' }]
+      );
+    }
   };
 
   const handleRegister = () => {

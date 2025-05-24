@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "gym-power-v1",
-    "slug": "gym-power-v1",
+    "name": "gym-power",
+    "slug": "gym-power",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/GYM.png",
     "scheme": "gympowerv1",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -13,7 +13,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/GYM.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true
